@@ -1,4 +1,4 @@
-# Hands-On: Provision de un Docker Swarm Cluster con Vagrant y Ansible
+#  Provision de un Docker Swarm Cluster con Vagrant y Ansible
 
 ### Aprovisione automáticamente un clúster Docker Swarm compuesto por dos maestros y dos trabajadores
 
@@ -64,7 +64,7 @@ $ sudo -H pip install --upgrade pip
 $ sudo -H pip install ansible
 ```
 
-a configuración del clúster se lleva a cabo mediante tres playbooks de Ansible. El primero, _cluster.yaml_, instala Docker CE en los cuatro hosts, independientemente de su función de destino:
+La configuración del clúster se lleva a cabo mediante cuantro playbooks de Ansible. El primero, _cluster.yaml_, instala Docker CE  y docker-compose en los cuatro hosts, independientemente de su función de destino:
 
 ```yaml
 ---
@@ -110,7 +110,7 @@ El segundo playbook, _master.yaml_, Inicializa Docker Swarm y configura los host
         creates: cluster_initialized.txt
 ```
 
-El último playbook, _join.yaml_, configura Docker Swarm por cuatro hosts: dos maestros  y dos trabajadores. Para lograr eso, se generan dos _join-tokens_ (uno para unirse al clúster como administrador y otro para unirse al clúster como trabajador) en el host que inicializó el enjambre, y se pasa automáticamente a los tres hosts restantes.
+El Tercer playbook, _join.yaml_, configura Docker Swarm por cuatro hosts: dos maestros  y dos trabajadores. Para lograr eso, se generan dos _join-tokens_ (uno para unirse al clúster como administrador y otro para unirse al clúster como trabajador) en el host que inicializó el enjambre, y se pasa automáticamente a los tres hosts restantes.
 ```yaml
 ---
 - hosts: swarm-master-1
@@ -153,6 +153,29 @@ El último playbook, _join.yaml_, configura Docker Swarm por cuatro hosts: dos m
       args:
         chdir: $HOME
         creates: node_joined.txt
+```
+
+EL cuarto playbook ejecuta con docker-compose con el que se despliega un servicio de docker en el cluster swarm
+
+
+```yaml
+- name: Deploy on Swarm Cluster
+  hosts: swarm-master-1
+  
+  tasks: 
+    - name: create swarm
+      shell: docker stack deploy -c docker-compose.yml wordpress
+      register: stack_deploy
+
+    - name: Check list of services
+      command: docker service ls
+      register: service_list
+
+    - name: Check list of stack
+      command: docker stack ps wordpress
+      register: stack_ps
+
+
 ```
 
 ## Step 1: Pull el Vagrant Box

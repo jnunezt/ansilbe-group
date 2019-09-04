@@ -1,0 +1,15 @@
+- name: Deploy on Swarm Cluster
+  hosts: swarm-master-1
+  
+  tasks: 
+    - name: create swarm
+      shell: docker stack deploy -c docker-compose.yml wordpress
+      register: stack_deploy
+
+    - name: Check list of services
+      command: docker service ls
+      register: service_list
+
+    - name: Check list of stack
+      command: docker stack ps wordpress
+      register: stack_ps
