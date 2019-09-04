@@ -178,7 +178,7 @@ EL cuarto playbook ejecuta con docker-compose con el que se despliega un servici
 
 ```
 
-## Step 1: Pull el Vagrant Box
+## Step 1: Pull a Vagrant Box
 
 Usamos Bento's Ubuntu 16.04 Vagrant Box - https://app.vagrantup.com/bento/boxes/ubuntu-16.04 - como la plantilla de imagen para todos los hosts. Ingrese un shell y escriba:
 
@@ -187,7 +187,7 @@ $ vagrant box add bento/ubuntu-16.04 --provider virtualbox
 ```
 para extraer la imagen solicitada del catálogo de Vagrant Cloud.
 
-## Step 2: Ejecute el Vagrantfile
+## Step 2: Ejecucion  Vagrantfile
 
 Ingrese el siguiente comando
 
@@ -201,7 +201,7 @@ Este creara las VM, en la maquina swarm-master-1 instalara Ansible, desde esa ma
 
 Su comando ejecuta el _Vagrantfile_, que a su vez, como se explicó anteriormente, instala Ansible y ejecuta los playbooks. Todo esto llevará unos minutos. Eventualmente, nuestro Docker Swarm Cluster estará configurado y listo para ser utilizado.
 
-## Step 3: Verify the Swarm Cluster
+## Step 3: Verificacion de  Swarm 
 
 Inicie sesión en el primer nodo utilizando el acceso SSH incorporado de Vagrant como usuario _vagrant_ user:
 
